@@ -10,6 +10,13 @@ This repository is the official implementation of the paper "Single-stage Keypoi
 
 The code was tested on Ubuntu 16.04, with [Anaconda](https://www.anaconda.com/download) Python 3.6 and [PyTorch]((http://pytorch.org/)) 1.1.0. Higher versions should be possible with some accuracy difference. NVIDIA GPUs are needed for both training and testing.
 
+---
+***NOTE***
+
+For hardware-accelerated ROS2 inference support, please visit [Isaac ROS CenterPose](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_pose_estimation/tree/main/isaac_ros_centerpose) which has been tested with ROS2 Foxy on Jetson AGX Xavier/JetPack 4.6 and on x86/Ubuntu 20.04 with RTX3060i.
+
+---
+
 1. Clone this repo:
 
     ~~~
