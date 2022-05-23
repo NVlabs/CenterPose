@@ -4,7 +4,9 @@
 
 ## Overview
 
-This repository is the official implementation of the paper "Single-stage Keypoint-based Category-level Object Pose Estimation from an RGB Image" by Lin et al. (full citation below). In this work, we propose a single-stage, keypoint-based approach for category-level object pose  estimation, which operates on unknown object instances within a known  category using a single RGB image input. The proposed network performs  2D  object detection,  detects 2D  keypoints,  estimates  6-DoF  pose,  and regresses relative 3D bounding cuboid dimensions.  These quantities are estimated in a sequential fashion, leveraging the recent idea of convGRU for propagating information from easier tasks to those that are more difficult.  We favor simplicity in our design choices: generic cuboid vertex coordinates, a single-stage network, and monocular  RGB  input.  We conduct extensive experiments on the challenging Objectron benchmark of real images,  outperforming state-of-the-art methods for 3D IoU metric (27.6% higher than the single-stage approach of MobilePose and 7.1% higher than the related two-stage approach). The algorithm runs at 15 fps on an NVIDIA GTX 1080Ti GPU.
+This repository is the official implementation of the paper [Single-stage Keypoint-based Category-level Object Pose Estimation from an RGB Image](https://arxiv.org/abs/2109.06161) by Lin et al., ICRA 2022 (full citation below).  For videos, please visit the [project site](https://sites.google.com/view/centerpose).
+
+In this work, we propose a single-stage, keypoint-based approach for category-level object pose  estimation, which operates on unknown object instances within a known  category using a single RGB image input. The proposed network performs  2D  object detection,  detects 2D  keypoints,  estimates  6-DoF  pose,  and regresses relative 3D bounding cuboid dimensions.  These quantities are estimated in a sequential fashion, leveraging the recent idea of convGRU for propagating information from easier tasks to those that are more difficult.  We favor simplicity in our design choices: generic cuboid vertex coordinates, a single-stage network, and monocular  RGB  input.  We conduct extensive experiments on the challenging Objectron benchmark of real images,  outperforming state-of-the-art methods for 3D IoU metric (27.6% higher than the single-stage approach of MobilePose and 7.1% higher than the related two-stage approach). The algorithm runs at 15 fps on an NVIDIA GTX 1080Ti GPU.
 
 ## Installation
 
@@ -104,14 +106,14 @@ We evaluate our method on the [Objectron](https://github.com/google-research-dat
 
 
 ## Citation
-Please cite grasp_primitiveShape if you use this repository in your publications:
+Please cite the following if you use this repository in your publications:
 
 ```
-@article{lin2021single,
-  title={Single-stage Keypoint-based Category-level Object Pose Estimation from an RGB Image},
+@inproceedings{lin2022icra:centerpose,
+  title={Single-stage Keypoint-based Category-level Object Pose Estimation from an {RGB} Image},
   author={Lin, Yunzhi and Tremblay, Jonathan and Tyree, Stephen and Vela, Patricio A and Birchfield, Stan},
-  journal={arXiv preprint arXiv:2109.06161},
-  year={2021}
+  booktitle={IEEE International Conference on Robotics and Automation (ICRA)},
+  year={2022}
 }
 ```
 
