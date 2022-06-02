@@ -127,14 +127,14 @@ Please cite the following if you use this repository in your publications:
 ```
 @inproceedings{lin2022icra:centerpose,
   title={Single-Stage Keypoint-based Category-level Object Pose Estimation from an {RGB} Image},
-  author={Lin, Yunzhi and Tremblay, Jonathan and Tyree, Stephen and Vela, Patricio A and Birchfield, Stan},
+  author={Lin, Yunzhi and Tremblay, Jonathan and Tyree, Stephen and Vela, Patricio A. and Birchfield, Stan},
   booktitle={IEEE International Conference on Robotics and Automation (ICRA)},
   year={2022}
 }
 
 @inproceedings{lin2022icra:centerposetrack,
   title={Keypoint-Based Category-Level Object Pose Tracking from an {RGB} Sequence with Uncertainty Estimation},
-  author={Lin, Yunzhi and Tremblay, Jonathan and Tyree, Stephen and Vela, Patricio A and Birchfield, Stan},
+  author={Lin, Yunzhi and Tremblay, Jonathan and Tyree, Stephen and Vela, Patricio A. and Birchfield, Stan},
   booktitle={IEEE International Conference on Robotics and Automation (ICRA)},
   year={2022}
 }
