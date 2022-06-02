@@ -38,15 +38,15 @@ def demo(opt, meta):
             print("Error opening video stream or file")
 
         idx = 0
-        while(cam.isOpened()):
+        while (cam.isOpened()):
             _, img = cam.read()
             try:
                 cv2.imshow('input', img)
             except:
-                exit(1)
+                raise RuntimeError('Cannot initialize camera!')
 
             filename = os.path.splitext(os.path.basename(opt.demo))[0] + '_' + str(idx).zfill(
-                                   4) + '.png'
+                4) + '.png'
             ret = detector.run(img, meta_inp=meta,
                                filename=filename)
             idx = idx + 1
@@ -86,17 +86,26 @@ def demo(opt, meta):
                 time_str = time_str + '{} {:.3f}s |'.format(stat, ret[stat])
             print(f'Frame {idx}|' + time_str)
 
+
 if __name__ == '__main__':
 
     # Default params with commandline input
     opt = opts().parser.parse_args()
 
-    # Local machine configuration
-    # opt.c = 'cup'
+    # Local machine configuration example for CenterPose
+    # opt.c = 'cup' # Only meaningful when enables show_axes option
     # opt.demo = "../images/CenterPose/cup.mp4"
     # opt.arch = 'dlav1_34'
     # opt.load_model = f"../models/CenterPose/cup_mug_v1_140.pth"
     # opt.debug = 1
+    # opt.show_axes = True
+
+    # Local machine configuration example for CenterPoseTrack
+    # opt.c = 'cup' # Only meaningful when enables show_axes option
+    # opt.tracking_task = True
+    # opt.arch = 'dla_34'
+    # opt.load_model = f"../models/CenterPoseTrack/cup_mug_15.pth"
+    # opt.debug = 2
     # opt.show_axes = True
 
     # Default setting
@@ -122,8 +131,8 @@ if __name__ == '__main__':
         opt.pre_thresh = max(opt.track_thresh, opt.pre_thresh)
         opt.new_thresh = max(opt.track_thresh, opt.new_thresh)
 
+        # # For tracking moving objects, better to set up a small threshold
         # opt.max_age = 2
-        # opt.vis_thresh = 0.5
 
         print('Using tracking threshold for out threshold!', opt.track_thresh)
 
@@ -134,7 +143,7 @@ if __name__ == '__main__':
             [[663.0287679036459, 0, 300.2775065104167], [0, 663.0287679036459, 395.00066121419275], [0, 0, 1]])
         opt.cam_intrinsic = meta['camera_matrix']
     else:
-        meta['camera_matrix'] = np.array(opt.cam_intrinsic).reshape(3,3)
+        meta['camera_matrix'] = np.array(opt.cam_intrinsic).reshape(3, 3)
 
     opt.use_pnp = True
 

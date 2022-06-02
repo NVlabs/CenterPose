@@ -50,7 +50,6 @@ def main(opt):
 
     print('Setting up data...')
     val_dataset = Dataset(opt, 'val')
-
     if opt.tracking_task == True:
         val_dataset_subset = torch.utils.data.Subset(val_dataset, range(0, len(val_dataset), 15))
     else:
@@ -58,75 +57,91 @@ def main(opt):
 
     val_loader = torch.utils.data.DataLoader(
         val_dataset_subset,
-        batch_size=opt.batch_size,
+        batch_size=1,
         shuffle=False,
         num_workers=0,
         pin_memory=True,
         collate_fn=collate_fn_filtered
     )
 
-    print('Starting testing...')
+    if opt.test:
+        _, preds, _ = trainer.val(0, val_loader)
 
+    train_loader = torch.utils.data.DataLoader(
+        Dataset(opt, 'train'),
+        batch_size=opt.batch_size,
+        shuffle=True,
+        num_workers=opt.num_workers,
+        pin_memory=True,
+        drop_last=True,
+        collate_fn=collate_fn_filtered
+    )
+
+    print('Starting training...')
+    best = 1e10
     for epoch in range(start_epoch + 1, opt.num_epochs + 1):
-
-        # Reload model
-        model = create_model(opt.arch, opt.heads, opt.head_conv, opt=opt)
-
-        new_model_path = os.path.join(os.path.dirname(opt.load_model), f'{opt.c}_{epoch}.pth')
-        if not os.path.exists(new_model_path):
-            continue
-
-        model, _, _ = load_model(
-            model, new_model_path, optimizer, opt.resume, opt.lr, opt.lr_step)
-        trainer.model = model
-        trainer.set_device(opt.gpus, opt.chunk_sizes, opt.device)
-
+        mark = epoch if opt.save_all else 'last'
+        log_dict_train, _, log_imgs = trainer.train(epoch, train_loader)
         logger.write('epoch: {} | '.format(epoch))  # txt logging
-
+        for k, v in log_dict_train.items():
+            logger.scalar_summary('train_{}'.format(k), v, epoch)  # tensorboard logging
+            logger.write('train_{} {:8f} | '.format(k, v))  # txt logging
+        logger.img_summary('train', log_imgs, epoch)
         if opt.val_intervals > 0 and epoch % opt.val_intervals == 0:
-
+            save_model(os.path.join(opt.save_dir, f'{opt.c}_{mark}.pth'),
+                       epoch, model, optimizer)
             with torch.no_grad():
                 log_dict_val, preds, log_imgs = trainer.val(epoch, val_loader)
             for k, v in log_dict_val.items():
                 logger.scalar_summary('val_{}'.format(k), v, epoch)
                 logger.write('val_{} {:8f} | '.format(k, v))
             logger.img_summary('val', log_imgs, epoch)
-
+            if log_dict_val[opt.metric] < best:
+                best = log_dict_val[opt.metric]
+                save_model(os.path.join(opt.save_dir, f'{opt.c}_best.pth'),
+                           epoch, model)
+            # else:
+            save_model(os.path.join(opt.save_dir, f'{opt.c}_last.pth'),
+                       epoch, model, optimizer)
         logger.write('\n\n')
 
+        if epoch in opt.lr_step:
+            save_model(os.path.join(opt.save_dir, f'{opt.c}_{epoch}.pth'),
+                       epoch, model, optimizer)
+            lr = opt.lr * (0.1 ** (opt.lr_step.index(epoch) + 1))
+            print('Drop LR to', lr)
+            for param_group in optimizer.param_groups:
+                param_group['lr'] = lr
     logger.close()
 
 
 if __name__ == '__main__':
+    torch.multiprocessing.set_start_method('spawn')
 
-    # Default params with commandline input
     opt = opts()
     opt = opt.parser.parse_args()
 
     # Local configuration
-    # Note: Assume multiple training weights are saved in the same folder, e.g., chair_20.pth
-    # We will test on all the weights
-    opt.load_model = "Path2weights"
     opt.c = 'bike'
-    opt.arch = 'dlav1_34'
+    opt.arch='dla_34'
     opt.obj_scale = True
     opt.obj_scale_weight = 1
     opt.mug = False
 
     # Training param
+    opt.tracking_task = True
     opt.exp_id = f'objectron_{opt.c}_{opt.arch}'
-    opt.num_epochs = 140
-    opt.val_intervals = 5
-    opt.lr_step = '90,120'
-    opt.batch_size = 8
-    opt.lr = 6e-5
+    opt.num_epochs = 15
+    opt.val_intervals = 1
+    opt.lr_step = '6,10'
+    opt.batch_size = 16
+    opt.lr = 1.25e-4
     opt.gpus = '0'
     opt.num_workers = 4
-    opt.print_iter = 1
+    opt.print_iter = 5
     opt.debug = 5
     opt.save_all = True
 
-    # opt.tracking_task = True
     # Tracking related
     if opt.tracking_task == True:
 
@@ -179,7 +194,10 @@ if __name__ == '__main__':
         opt.new_thresh = max(opt.track_thresh, opt.new_thresh)
         print('Using tracking threshold for out threshold!', opt.track_thresh)
 
-    # Copy from parse function from opts.py
+    # # To continue
+    # opt.resume = True
+    # opt.load_model = ""
+
     opt.gpus_str = opt.gpus
     opt.gpus = [int(gpu) for gpu in opt.gpus.split(',')]
     opt.gpus = [i for i in range(len(opt.gpus))] if opt.gpus[0] >= 0 else [-1]
