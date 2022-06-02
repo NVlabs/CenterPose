@@ -16,8 +16,7 @@ import cv2
 USE_TENSORBOARD = True
 try:
     import torch.utils.tensorboard as tensorboard
-
-    print('Using tensorboard')
+    # print('Using tensorboard')
 except:
     USE_TENSORBOARD = False
 

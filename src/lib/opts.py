@@ -27,10 +27,10 @@ class opts(object):
                                  help='level of visualization.'
                                       '1: only show the final detection results'
                                       '2: show the network output features'
-                                      '3: use matplotlib to display'  # useful when lunching training with ipython notebook
-                                      '4: save all visualizations to disk and no display'
-                                      '5: only save visualizations to tensorboard and no display'
-                                      '6: save visualizations, only for demo debug')
+                                      '3: use matplotlib to display'  # useful when launching training with ipython notebook
+                                      '4: save visualizations to disk and no display'
+                                      '5: save visualizations to tensorboard and no display'
+                                      '6: save visualizations to disk and no display (for evaluation, path is different from 4)')
         self.parser.add_argument('--demo', default='',
                                  help='path to image/ image folders/ video. '
                                       'or "webcam"')
@@ -201,7 +201,7 @@ class opts(object):
         self.parser.add_argument('--use_pnp', action='store_true',
                                  help='use pnp')
         self.parser.add_argument('--mug', action='store_true',
-                                 help='target is a mug')
+                                 help='target is a mug (only useful for training and evaluation)')
         self.parser.add_argument('--num_symmetry', default=12,
                                  help='the number of the symmetry for ground truths, idea comes from NOCS paper https://arxiv.org/abs/1901.02970')
 

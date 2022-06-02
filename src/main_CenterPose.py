@@ -134,7 +134,7 @@ if __name__ == '__main__':
     opt.num_epochs = 140
     opt.val_intervals = 5
     opt.lr_step = '90,120'
-    opt.batch_size = 1
+    opt.batch_size = 16
     opt.lr = 6e-5
     opt.gpus = '0'
     opt.num_workers = 4
