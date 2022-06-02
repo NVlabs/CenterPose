@@ -77,21 +77,21 @@ cd $CenterPose_ROOT/src
 python demo.py --demo /path/to/image/or/folder/or/video --arch dlav1_34 --load_model ../path/to/model
 ```
 
-Similarly, for category-level 6-DoF object tracking,
+Similarly, for category-level 6-DoF object tracking, run:
 ```
 cd $CenterPose_ROOT/src
-python demo.py --demo /path/to/image/or/folder/or/video --arch dla_34 --load_model ../path/to/model --tracking_task
+python demo.py --demo /path/to/folder/or/video --arch dla_34 --load_model ../path/to/model --tracking_task
 ```
 
 You can also enable `--debug 2` to display more intermediate outputs or `--debug 4` to save all the intermediate and final outputs.
 
-For the webcam demo (You may want to specify the camera intrinsics via --cam_intrinsic), run
+For the webcam demo (You may want to specify the camera intrinsics via --cam_intrinsic), run:
 ```
 cd $CenterPose_ROOT/src
 python demo.py --demo webcam --arch dlav1_34 --load_model ../path/to/model
 ```
 
-Similarly, for tracking, run
+Similarly, for tracking, run:
 ```
 cd $CenterPose_ROOT/src
 python demo.py --demo webcam --arch dla_34 --load_model ../path/to/model --tracking_task

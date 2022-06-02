@@ -43,7 +43,7 @@ def demo(opt, meta):
             try:
                 cv2.imshow('input', img)
             except:
-                raise RuntimeError('Cannot initialize camera!')
+                exit(1)
 
             filename = os.path.splitext(os.path.basename(opt.demo))[0] + '_' + str(idx).zfill(
                 4) + '.png'
@@ -94,17 +94,18 @@ if __name__ == '__main__':
 
     # Local machine configuration example for CenterPose
     # opt.c = 'cup' # Only meaningful when enables show_axes option
-    # opt.demo = "../images/CenterPose/cup.mp4"
+    # opt.demo = "../images/CenterPose/cup/00007.png"
     # opt.arch = 'dlav1_34'
     # opt.load_model = f"../models/CenterPose/cup_mug_v1_140.pth"
-    # opt.debug = 1
+    # opt.debug = 2
     # opt.show_axes = True
 
     # Local machine configuration example for CenterPoseTrack
     # opt.c = 'cup' # Only meaningful when enables show_axes option
+    # opt.demo = '../images/CenterPoseTrack/shoe_batch-25_10.mp4'
     # opt.tracking_task = True
     # opt.arch = 'dla_34'
-    # opt.load_model = f"../models/CenterPoseTrack/cup_mug_15.pth"
+    # opt.load_model = f"../models/CenterPoseTrack/shoe_15.pth"
     # opt.debug = 2
     # opt.show_axes = True
 
