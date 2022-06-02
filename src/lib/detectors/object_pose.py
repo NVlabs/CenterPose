@@ -305,7 +305,8 @@ class ObjectPoseDetector(BaseDetector):
                         debugger.add_obj_scale(bbox['bbox'], bbox['obj_scale'], img_id='out_img_pred')
                         if self.opt.show_axes == True:
                             if self.opt.tracking_task == True:
-                                debugger.add_axes(bbox['kps_3d_cam_kf'], self.opt.cam_intrinsic, img_id='out_img_pred')
+                                if 'kps_3d_cam_kf' in bbox:
+                                    debugger.add_axes(bbox['kps_3d_cam_kf'], self.opt.cam_intrinsic, img_id='out_img_pred')
                             else:
                                 # Sometimes, pnp fails then no kps_3d_cam
                                 if 'kps_3d_cam' in bbox:
