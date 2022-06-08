@@ -31,5 +31,5 @@ To evaluate on multiple categories, we wrap the evaluation code into two scripts
 `shell_eval_image_CenterPose.py` runs on the original officially released preprocessed dataset (image).
 (We do not use it for our paper.)
 
-`shell_eval_video_CenterPose.py` runs on the re-sorted officially released preprocessed dataset (video). 
+`shell_eval_video_CenterPose.py` and `shell_eval_video_CenterPoseTrack.py` run on the re-sorted officially released preprocessed dataset (video).
 

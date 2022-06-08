@@ -58,7 +58,7 @@ For hardware-accelerated ROS2 inference support, please visit [Isaac ROS CenterP
     ./make.sh
     ~~~
 
-4. Download our [pre-trained models](https://drive.google.com/drive/folders/16HbCnUlCaPcTg4opHP_wQNPsWouUlVZe?usp=sharing) for CenterPose and move all the `.pth` files to `$CenterPose_ROOT/models/CenterPose/`.  Download our [pre-trained models](https://drive.google.com/drive/folders/1zOryfHI7ab2Qsyg3rs-zP3ViblknfzGy?usp=sharing) for CenterPoseTrack and move all the `.pth` files to `$CenterPose_ROOT/models/CenterPoseTrack/`. We currently provide models for 9 categories: bike, book, bottle, camera, cereal_box, chair, cup, laptop, and shoe. 
+4. Download our [CenterPose pre-trained models](https://drive.google.com/drive/folders/16HbCnUlCaPcTg4opHP_wQNPsWouUlVZe?usp=sharing) and move all the `.pth` files to `$CenterPose_ROOT/models/CenterPose/`.  Similarly, download our [CenterPoseTrack pre-trained models](https://drive.google.com/drive/folders/1zOryfHI7ab2Qsyg3rs-zP3ViblknfzGy?usp=sharing) and move all the `.pth` files to `$CenterPose_ROOT/models/CenterPoseTrack/`. We currently provide models for 9 categories: bike, book, bottle, camera, cereal_box, chair, cup, laptop, and shoe. 
 
 5. Prepare training/testing data
 
@@ -99,7 +99,7 @@ python demo.py --demo webcam --arch dla_34 --load_model ../path/to/model --track
 
 ## Training
 
-We follow the approach of [CenterNet](https://github.com/xingyizhou/CenterNet/blob/master/experiments/ctdet_coco_dla_1x.sh) for training the DLA network, reducing the learning rate by 10x after epoch 90 and 120, and stopping after 140 epochs.
+We follow the approach of [CenterNet](https://github.com/xingyizhou/CenterNet/blob/master/experiments/ctdet_coco_dla_1x.sh) for training the DLA network, reducing the learning rate by 10x after epoch 90 and 120, and stopping after 140 epochs. Similarly, for CenterPoseTrack, we train the DLA network, reducing the learning rate by 10x after epoch 6 and 10, and stopping after 15 epochs.
 
 For debug purposes, you can put all the local training params in the `$CenterPose_ROOT/src/main_CenterPose.py` script. Similarly, CenterPoseTrack can follow `$CenterPose_ROOT/src/main_CenterPoseTrack.py` script. You can also use the command line instead. More options are in `$CenterPose_ROOT/src/lib/opts.py`.
 

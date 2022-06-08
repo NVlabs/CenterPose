@@ -15,3 +15,5 @@ Example code:
 `python download.py --c chair`
 
 `python preprocess.py --c chair --outf outf_all --frame_rate 1`
+
+Note that we set frame_rate as 15 for CenterPose while we set frame_rate as 1 for CenterPoseTrack. 
