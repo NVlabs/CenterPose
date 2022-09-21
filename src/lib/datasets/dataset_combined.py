@@ -960,7 +960,7 @@ class ObjectPoseDataset(data.Dataset):
 
             # Todo: Only for chair category for now
             if 'symmetric' in ann:
-                if ann['symmetric'] == 'True':
+                if ann['symmetric']:
                     num_symmetry = 4
                 else:
                     num_symmetry = 1
